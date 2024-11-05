@@ -1,5 +1,7 @@
 use crate::prelude::{Divider, DividerType, OuiaComponentType};
 use crate::utils::{Ouia, OuiaSafe};
+use gloo_events::{EventListener, EventListenerOptions};
+use web_sys::HtmlElement;
 use yew::prelude::*;
 
 const OUIA: Ouia = ouia!("Card");
@@ -81,6 +83,8 @@ pub struct CardProperties {
     /// Add additional styles to the Card.
     #[prop_or_default]
     pub style: Option<AttrValue>,
+    #[prop_or_default]
+    pub onclick: Option<Callback<Event>>,
 
     /// OUIA Component id
     #[prop_or_default]
@@ -172,7 +176,8 @@ pub fn card(props: &CardProperties) -> Html {
     if props.plain {
         class.push("pf-m-plain");
     }
-    if props.selectable && props.clickable {
+    let clickable = props.clickable || props.onclick.is_some();
+    if props.selectable && clickable {
         class.push("pf-m-selectable");
         class.push("pf-m-clickable");
         if props.selected {
@@ -183,7 +188,7 @@ pub fn card(props: &CardProperties) -> Html {
         if props.selected {
             class.push("pf-m-selected");
         }
-    } else if props.clickable {
+    } else if clickable {
         class.push("pf-m-clickable");
         if props.selected {
             class.push("pf-m-selected");
@@ -194,16 +199,42 @@ pub fn card(props: &CardProperties) -> Html {
     let context = CardContext {
         card_id: props.id.clone(),
         expanded: props.expanded,
-        clickable: props.clickable,
+        clickable,
         selectable: props.selectable,
         disabled: props.disabled,
     };
+
+    let node_ref = use_node_ref();
+
+    use_effect_with(
+        (props.onclick.clone(), node_ref.clone()),
+        |(onclick, node_ref)| {
+            let mut listener = None;
+
+            if let (Some(element), Some(onclick)) = (node_ref.cast::<HtmlElement>(), onclick) {
+                let onclick = onclick.clone();
+                listener = Some(EventListener::new_with_options(
+                    &element,
+                    "click",
+                    EventListenerOptions::enable_prevent_default(),
+                    move |e| {
+                        e.prevent_default();
+                        e.stop_propagation();
+                        onclick.emit(e.clone());
+                    },
+                ));
+            }
+
+            move || drop(listener)
+        },
+    );
 
     html! (
         <ContextProvider<CardContext> {context}>
             <@{props.component.clone()}
                 id={props.id.clone()}
                 {class}
+                ref={node_ref}
                 style={props.style.clone()}
                 data-ouia-component-id={(*ouia_id).clone()}
                 data-ouia-component-type={props.ouia_type}
