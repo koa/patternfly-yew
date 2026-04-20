@@ -20,7 +20,7 @@ pub struct DualListSelectorListProps {
 pub fn list<T: ItemRenderer>(props: &DualListSelectorListProps) -> Html {
     let context = use_context::<Context<T>>().unwrap();
     html! {
-        <ul class="pf-v5-c-dual-list-selector__list">
+        <ul class="pf-v6-c-dual-list-selector__list">
             if context.options.is_empty() {
                 { props.children.clone() }
             } else {
@@ -39,10 +39,10 @@ pub fn list<T: ItemRenderer>(props: &DualListSelectorListProps) -> Html {
                     let is_selected = context.selected_options.contains(&key);
                     html_nested! {
                         <DualListSelectorListItem key={key} {onoptionselect} {is_selected} disabled={context.disabled}>
-                            { option.to_html() }
+                            { option.clone() }
                         </DualListSelectorListItem>
                     }
-                })}
+                }) }
             }
         </ul>
     }

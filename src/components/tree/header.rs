@@ -23,10 +23,8 @@ where
     K: Clone + Eq + 'static,
 {
     html! (
-        <thead class="pf-v5-c-table__thead">
-
-            <tr class="pf-v5-c-table__tr">
-
+        <thead class="pf-v6-c-table__thead">
+            <tr class="pf-v6-c-table__tr">
                 { for props.children.iter().enumerate().map(|(n,mut c)| {
                     if n == 0 {
                         let props = Rc::make_mut(&mut c.props);
@@ -34,12 +32,9 @@ where
                     }
                     c
                 }) }
-
                 // this is for the actions
-                <td></td>
-
+                <td />
             </tr>
-
         </thead>
     )
 }

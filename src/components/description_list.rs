@@ -100,7 +100,7 @@ impl AsClasses for DescriptionListMode {
 /// ```
 #[function_component(DescriptionList)]
 pub fn dl(props: &DescriptionListProperties) -> Html {
-    let mut class = Classes::from("pf-v5-c-description-list");
+    let mut class = Classes::from("pf-v6-c-description-list");
 
     class.extend_from(&props.mode);
 
@@ -113,7 +113,11 @@ pub fn dl(props: &DescriptionListProperties) -> Html {
     }
 
     if props.fill_columns {
-        class.extend(classes!("pf-m-fill-columns"));
+        class.extend(classes!(
+            "pf-m-2-col",
+            "pf-m-3-col-on-lg",
+            "pf-m-fill-columns"
+        ));
     }
 
     if props.inline_grid {
@@ -126,15 +130,7 @@ pub fn dl(props: &DescriptionListProperties) -> Html {
 
     class.extend_from(&props.columns);
 
-    html! (
-        <dl
-            id={ &props.id }
-            {class}
-            style={ props.style.clone() }
-        >
-            { props.children.clone() }
-        </dl>
-    )
+    html! (<dl id={&props.id} {class} style={props.style.clone()}>{ props.children.clone() }</dl>)
 }
 
 /// Properties for [`DescriptionGroup`]
@@ -151,16 +147,12 @@ pub struct DescriptionGroupProperties {
 #[function_component(DescriptionGroup)]
 pub fn desc_group(props: &DescriptionGroupProperties) -> Html {
     html! (
-        <div class="pf-v5-c-description-list__group">
-            <dt class="pf-v5-c-description-list__term">
-                <span class="pf-v5-c-description-list__text">
-                    { &props.term }
-                </span>
+        <div class="pf-v6-c-description-list__group">
+            <dt class="pf-v6-c-description-list__term">
+                <span class="pf-v6-c-description-list__text">{ &props.term }</span>
             </dt>
-            <dd class="pf-v5-c-description-list__description">
-                <div class="pf-v5-c-description-list__text">
-                    { props.children.clone() }
-                </div>
+            <dd class="pf-v6-c-description-list__description">
+                <div class="pf-v6-c-description-list__text">{ props.children.clone() }</div>
             </dd>
         </div>
     )

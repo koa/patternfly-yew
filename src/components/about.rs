@@ -1,5 +1,5 @@
 //! About modal
-use crate::prelude::{use_backdrop, use_random_id, Button, ButtonVariant, Icon};
+use crate::prelude::{Button, ButtonVariant, Icon, use_backdrop, use_random_id};
 use yew::prelude::*;
 use yew_hooks::{use_click_away, use_event_with_window};
 
@@ -104,7 +104,7 @@ pub fn about_modal(props: &AboutModalProperties) -> Html {
         None
     } else {
         Some(format!(
-            "--pf-v5-c-about-modal-box--BackgroundImage: url({});",
+            "--pf-v6-c-about-modal-box--BackgroundImage: url({});",
             &props.background_image_src
         ))
     };
@@ -120,8 +120,10 @@ pub fn about_modal(props: &AboutModalProperties) -> Html {
             Some((*header_id).to_string()),
             None,
             html!(
-                <div class="pf-v5-c-about-modal-box__header">
-                    <h1 class="pf-v5-c-title pf-m-4xl" id={*header_id}>{ props.product_name.clone() }</h1>
+                <div class="pf-v6-c-about-modal-box__header">
+                    <h1 class="pf-v6-c-title pf-m-4xl" id={*header_id}>
+                        { props.product_name.clone() }
+                    </h1>
                 </div>
             ),
         )
@@ -130,7 +132,7 @@ pub fn about_modal(props: &AboutModalProperties) -> Html {
     html!(
         <div
             id={props.id.clone()}
-            class={classes!("pf-v5-c-about-modal-box", props.class.clone())}
+            class={classes!("pf-v6-c-about-modal-box", props.class.clone())}
             {style}
             role="dialog"
             aria-modal="true"
@@ -139,16 +141,17 @@ pub fn about_modal(props: &AboutModalProperties) -> Html {
             ref={node_ref}
         >
             if !props.brand_image_src.is_empty() {
-                <div class="pf-v5-c-about-modal-box__brand">
+                <div class="pf-v6-c-about-modal-box__brand">
                     <img
-                      class="pf-v5-c-about-modal-box__brand-image"
-                      src={props.brand_image_src.clone()}
-                      alt={props.brand_image_alt.clone()}
+                        class="pf-v6-c-about-modal-box__brand-image"
+                        src={props.brand_image_src.clone()}
+                        alt={props.brand_image_alt.clone()}
                     />
                 </div>
             }
-
-            <div class="pf-v5-c-about-modal-box__close">
+            <div
+                class="pf-v6-c-about-modal-box__close"
+            >
                 <Button
                     variant={ButtonVariant::Plain}
                     aria_label={props.close_button_aria_label.clone()}
@@ -157,15 +160,11 @@ pub fn about_modal(props: &AboutModalProperties) -> Html {
                     { Icon::Times }
                 </Button>
             </div>
-
             { header }
-
-            <div class="pf-v5-c-about-modal-box__content">
-                <div class="pf-v5-c-about-modal-box__body">
-                    { props.children.clone() }
-                </div>
+            <div class="pf-v6-c-about-modal-box__content">
+                <div class="pf-v6-c-about-modal-box__body">{ props.children.clone() }</div>
                 if !props.trademark.is_empty() {
-                    <p class="pf-v5-c-about-modal-box__strapline">{ props.trademark.clone() }</p>
+                    <p class="pf-v6-c-about-modal-box__strapline">{ props.trademark.clone() }</p>
                 }
             </div>
         </div>

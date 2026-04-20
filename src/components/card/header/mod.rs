@@ -57,14 +57,21 @@ pub fn header(props: &CardHeaderProperties) -> Html {
     let is_clickable_xor_selectable = context.clickable != context.selectable;
     let has_actions = props.actions.as_ref().is_some();
     if has_actions && is_clickable_xor_selectable {
-        log::warn!("{} only cards should not contain any other actions. If you wish to include additional actions, use a clickable and selectable card", if context.clickable { "Clickable" } else { "Selectable" });
+        log::warn!(
+            "{} only cards should not contain any other actions. If you wish to include additional actions, use a clickable and selectable card",
+            if context.clickable {
+                "Clickable"
+            } else {
+                "Selectable"
+            }
+        );
     }
 
     let mut class = classes!(props.class.clone());
     if props.toggle_right_aligned {
         class.push("pf-m-toggle-right");
     }
-    class.push("pf-v5-c-card__header");
+    class.push("pf-v6-c-card__header");
 
     let selectable_actions = if context.clickable || context.selectable {
         props.selectable_actions.as_ref()
@@ -82,7 +89,7 @@ pub fn header(props: &CardHeaderProperties) -> Html {
                     has_no_offset={props.actions.as_ref().map(|a| a.has_no_offset).unwrap_or_default()}
                 >
                     if let Some(actions) = &props.actions {
-                        {actions.actions.clone()}
+                        { actions.actions.clone() }
                     }
                     if let Some(selectable_actions) = selectable_actions {
                         <CardSelectableActions class={selectable_actions.base.class.clone()}>
@@ -92,7 +99,7 @@ pub fn header(props: &CardHeaderProperties) -> Html {
                 </CardActions>
             }
             if let Some(children) = props.children.as_ref() {
-                <CardHeaderMain>{children.clone()}</CardHeaderMain>
+                <CardHeaderMain>{ children.clone() }</CardHeaderMain>
             }
             if props.toggle_right_aligned {
                 <ExpandToggle onexpand={props.onexpand.clone()} />
@@ -121,16 +128,14 @@ fn expand_toggle(props: &ExpandToggleProperties) -> Html {
         return html!();
     }
     html! {
-        <div class="pf-v5-c-card__header-toggle">
+        <div class="pf-v6-c-card__header-toggle">
             <Button
-                variant={ ButtonVariant::Plain }
-                r#type={ ButtonType::Button }
+                variant={ButtonVariant::Plain}
+                r#type={ButtonType::Button}
                 aria_label="Details"
-                { onclick }
+                {onclick}
             >
-                <span class="pf-v5-c-card__header-toggle-icon">
-                    { Icon::AngleRight }
-                </span>
+                <span class="pf-v6-c-card__header-toggle-icon">{ Icon::AngleRight }</span>
             </Button>
         </div>
     }

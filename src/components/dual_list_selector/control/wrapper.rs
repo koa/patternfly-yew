@@ -16,10 +16,6 @@ pub struct DualListSelectorControlsWrapperProps {
 #[function_component(DualListSelectorControlsWrapper)]
 pub fn wrapper(props: &DualListSelectorControlsWrapperProps) -> Html {
     // TODO key handling
-    let class = classes!["pf-v5-c-dual-list-selector__controls", props.class.clone()];
-    html! {
-        <div {class} tabindex=0 role="group">
-            { props.children.clone() }
-        </div>
-    }
+    let class = classes!["pf-v6-c-dual-list-selector__controls", props.class.clone()];
+    html! { <div {class} tabindex=0 role="group">{ props.children.clone() }</div> }
 }

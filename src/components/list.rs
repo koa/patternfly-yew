@@ -6,8 +6,9 @@ use yew::html::ChildrenRenderer;
 use yew::virtual_dom::VChild;
 use yew::{html::IntoPropValue, prelude::*, virtual_dom::AttrValue};
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, Default, PartialEq, Eq)]
 pub enum ListType {
+    #[default]
     Basic,
     Inline,
     Ordered(ListOrder),
@@ -29,12 +30,6 @@ impl AsClasses for ListType {
             }
             _ => {}
         }
-    }
-}
-
-impl Default for ListType {
-    fn default() -> Self {
-        Self::Basic
     }
 }
 
@@ -123,7 +118,7 @@ impl AsClasses for ListIconSize {
 /// ```
 #[function_component(List)]
 pub fn list(props: &ListProperties) -> Html {
-    let mut classes = Classes::from("pf-v5-c-list");
+    let mut classes = Classes::from("pf-v6-c-list");
 
     classes.extend_from(&props.r#type);
     classes.extend_from(&props.icon_size);
@@ -137,9 +132,7 @@ pub fn list(props: &ListProperties) -> Html {
         }
     };
 
-    l(html! ({
-         for props.children.clone()
-    }))
+    l(html! ({ for props.children.clone() }))
 }
 
 #[derive(PartialEq, Properties)]
@@ -154,19 +147,17 @@ pub struct ListItemProperties {
 pub fn list_item(props: &ListItemProperties) -> Html {
     match props.icon {
         Some(icon) => {
-            let class = classes!("pf-v5-c-list__item");
+            let class = classes!("pf-v6-c-list__item");
             html!(
                 <li {class}>
-                    <span class={classes!("pf-v5-c-list__item-icon")}>
-                        { icon }
-                    </span>
-                    <span class={classes!("pf-v5-c-list__item-text")}>
+                    <span class={classes!("pf-v6-c-list__item-icon")}>{ icon }</span>
+                    <span class={classes!("pf-v6-c-list__item-text")}>
                         { props.children.clone() }
                     </span>
                 </li>
             )
         }
-        None => html!( <li> { props.children.clone() } </li> ),
+        None => html!(<li>{ props.children.clone() }</li>),
     }
 }
 

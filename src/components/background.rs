@@ -82,11 +82,11 @@ impl IntoPropValue<BackgroundStyle> for Cow<'static, str> {
 pub fn background(props: &BackgroundProperties) -> Html {
     let mut style = match &props.style {
         BackgroundStyle::Default => {
-            "--pf-v5-c-background-image--BackgroundImage: url(assets/images/pfbg-icon.svg);"
+            "--pf-v6-c-background-image--BackgroundImage: url(assets/images/pfbg-icon.svg);"
                 .to_string()
         }
         BackgroundStyle::Image(url) => {
-            format!("--pf-v5-c-background-image--BackgroundImage: url({url});")
+            format!("--pf-v6-c-background-image--BackgroundImage: url({url});")
         }
         BackgroundStyle::Style(style) => style.to_string(),
     };
@@ -95,11 +95,5 @@ pub fn background(props: &BackgroundProperties) -> Html {
         style.push_str(additional);
     }
 
-    html!(
-        <div
-            id={props.id.clone()}
-            class="pf-v5-c-background-image"
-            {style}
-        ></div>
-    )
+    html!(<div id={props.id.clone()} class="pf-v6-c-background-image" {style} />)
 }

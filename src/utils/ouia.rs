@@ -1,6 +1,6 @@
 use std::sync::atomic::{AtomicUsize, Ordering};
-use yew::html::IntoPropValue;
 use yew::AttrValue;
+use yew::html::IntoPropValue;
 
 #[macro_export]
 macro_rules! ouia {
@@ -8,7 +8,7 @@ macro_rules! ouia {
         Ouia::with_full(concat!($framework, "/", $component))
     };
     ($component:literal) => {
-        ouia!("PF5", $component)
+        ouia!("PF6", $component)
     };
 }
 

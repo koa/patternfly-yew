@@ -32,18 +32,11 @@ impl<T: Target> super::variant::BreadcrumbItemCreator for BreadcrumbRouterItemPr
 /// A breadcrumb item component based on [`yew_nested_router`].
 #[function_component(BreadcrumbRouterItem)]
 pub fn breadcrumb_router_item<T: Target>(props: &BreadcrumbRouterItemProperties<T>) -> Html {
-    let mut class = Classes::from("pf-v5-c-breadcrumb__link");
+    let mut class = Classes::from("pf-v6-c-breadcrumb__link");
 
     if props.current {
         class.push("pf-m-current");
     }
 
-    html!(
-        <Link<T>
-            {class}
-            to={props.to.clone()}
-        >
-            { props.children.clone() }
-        </Link<T>>
-    )
+    html!(<Link<T> {class} to={props.to.clone()}>{ props.children.clone() }</Link<T>>)
 }

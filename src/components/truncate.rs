@@ -133,30 +133,24 @@ pub struct TruncateProperties {
 /// Defined by [`TruncateProperties`].
 #[function_component(Truncate)]
 pub fn truncate(props: &TruncateProperties) -> Html {
-    let class = classes!("pf-v5-c-truncate", props.class.clone());
-    let start_class = classes!("pf-v5-c-truncate__start", props.start_class.clone());
-    let end_class = classes!("pf-v5-c-truncate__end", props.end_class.clone());
+    let class = classes!("pf-v6-c-truncate", props.class.clone());
+    let start_class = classes!("pf-v6-c-truncate__start", props.start_class.clone());
+    let end_class = classes!("pf-v6-c-truncate__end", props.end_class.clone());
 
     html!(
-        <span
-            {class}
-            style={props.style.clone()}
-            id={props.id.clone()}
-        >
-            {
-                match &props.content {
+        <span {class} style={props.style.clone()} id={props.id.clone()}>
+            { match &props.content {
                     TruncateContent::Default(value) => html!(
-                        <span class={start_class}>{ &value }</span>
+                        <span class={start_class}>{ value }</span>
                     ),
                     TruncateContent::Middle(start, end) => html!(<>
-                        <span class={start_class}>{ &start }</span>
-                        <span class={end_class}>{ &end }</span>
+                        <span class={start_class}>{ start }</span>
+                        <span class={end_class}>{ end }</span>
                     </>),
                     TruncateContent::Start(value) => html!(<>
                         <span class={end_class}>{ &value }{ "\u{200E}" }</span>
                     </>),
-                }
-            }
+                } }
         </span>
     )
 }

@@ -104,7 +104,7 @@ impl AsClasses for ExpandableSectionVariant {
 pub fn expandable_section(props: &ExpandableSectionProperties) -> Html {
     let expanded = use_state_eq(|| props.initially_open);
 
-    let mut class = classes!("pf-v5-c-expandable-section");
+    let mut class = classes!("pf-v6-c-expandable-section");
 
     class.extend_from(&props.variant);
     class.extend_from(&props.display_size);
@@ -133,9 +133,9 @@ pub fn expandable_section(props: &ExpandableSectionProperties) -> Html {
     }
 
     let content = html!(
-        <div
-            class="pf-v5-c-expandable-section__content" hidden={!expanded}
-        >{ props.children.clone() }</div>
+        <div class="pf-v6-c-expandable-section__content" hidden={!expanded}>
+            { props.children.clone() }
+        </div>
     );
 
     let truncating = props.variant == ExpandableSectionVariant::Truncate;
@@ -156,26 +156,11 @@ pub fn expandable_section(props: &ExpandableSectionProperties) -> Html {
 
     // when using the truncating variant, the toggle is below the content
     let content = match truncating {
-        false => html!(
-            <>
-                {toggle} {content}
-            </>
-        ),
-        true => html!(
-            <>
-                 {content} {toggle}
-            </>
-        ),
+        false => html!(<>{ toggle }{ content }</>),
+        true => html!(<>{ content }{ toggle }</>),
     };
 
-    html!(
-        <div
-            {class}
-            id={props.id.clone()}
-        >
-            { content }
-        </div>
-    )
+    html!(<div {class} id={props.id.clone()}>{ content }</div>)
 }
 
 /// Properties for [`ExpandableSectionToggle`]
@@ -226,7 +211,7 @@ impl AsClasses for ExpandableSectionToggleDirection {
 
 #[function_component(ExpandableSectionToggle)]
 pub fn expandable_section_toggle(props: &ExpandableSectionToggleProperties) -> Html {
-    let mut class = classes!("pf-v5-c-expandable-section");
+    let mut class = classes!("pf-v6-c-expandable-section");
 
     if props.expanded {
         class.extend(classes!("pf-m-expanded"));
@@ -240,22 +225,22 @@ pub fn expandable_section_toggle(props: &ExpandableSectionToggleProperties) -> H
         ontoggle.emit(());
     });
 
-    let mut toggle_icon_class = classes!("pf-v5-c-expandable-section__toggle-icon");
+    let mut toggle_icon_class = classes!("pf-v6-c-expandable-section__toggle-icon");
     toggle_icon_class.extend_from(&props.direction);
 
     let control = html!(
         <button
             type="button"
-            class="pf-v5-c-expandable-section__toggle"
+            class="pf-v6-c-expandable-section__toggle"
             aria-expanded={props.expanded.to_string()}
             {onclick}
         >
             if !props.no_icon {
-                <span class={toggle_icon_class}>
-                    { Icon::AngleRight }
-                </span>
+                <span class={toggle_icon_class}>{ Icon::AngleRight }</span>
             }
-            <span class="pf-v5-c-expandable-section__toggle-text">
+            <span
+                class="pf-v6-c-expandable-section__toggle-text"
+            >
                 if !props.children.is_empty() {
                     { props.children.clone() }
                 } else {
@@ -266,9 +251,7 @@ pub fn expandable_section_toggle(props: &ExpandableSectionToggleProperties) -> H
     );
 
     match props.detached {
-        true => html!(
-            <div {class}>{ control }</div>
-        ),
+        true => html!(<div {class}>{ control }</div>),
         false => control,
     }
 }

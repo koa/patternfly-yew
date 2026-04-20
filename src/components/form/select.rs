@@ -99,7 +99,7 @@ where
     }
 
     html! (
-        <div class="pf-v5-c-form-control">
+        <div class="pf-v6-c-form-control">
             <select
                 {oninput}
                 name={&props.name}
@@ -115,10 +115,8 @@ where
                 }
                 { for props.children.iter() }
             </select>
-            <div class="pf-v5-c-form-control__utilities">
-                <div class="pf-v5-c-form-control__toggle-icon">
-                  {Icon::CaretDown}
-                </div>
+            <div class="pf-v6-c-form-control__utilities">
+                <div class="pf-v6-c-form-control__toggle-icon">{ Icon::CaretDown }</div>
             </div>
         </div>
     )
@@ -211,11 +209,7 @@ where
     K: 'static + Clone + PartialEq + Display,
 {
     html! (
-        <option
-            id={props.id.clone()}
-            selected={props.selected}
-            value={props.value.to_string()}
-        >
+        <option id={props.id.clone()} selected={props.selected} value={props.value.to_string()}>
             if let Some(description) = &props.description {
                 { &description }
             } else {
@@ -240,9 +234,5 @@ pub fn form_select_group<K>(props: &FormSelectGroupProperties<K>) -> Html
 where
     K: 'static + Clone + PartialEq + Display,
 {
-    html! (
-        <optgroup label={props.label.clone()}>
-            { for props.children.iter() }
-        </optgroup>
-    )
+    html! (<optgroup label={props.label.clone()}>{ for props.children.iter() }</optgroup>)
 }

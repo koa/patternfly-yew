@@ -41,7 +41,7 @@ pub struct InputGroupProperties {
 /// [`InputGroupItem`] component to amend the input group with additional content.
 #[function_component(InputGroup)]
 pub fn input_group(props: &InputGroupProperties) -> Html {
-    let mut class = classes!("pf-v5-c-input-group");
+    let mut class = classes!("pf-v6-c-input-group");
 
     class.extend(props.class.clone());
 
@@ -50,12 +50,7 @@ pub fn input_group(props: &InputGroupProperties) -> Html {
     }
 
     html! (
-        <div
-            {class}
-            aria-label={&props.aria_label}
-            style={&props.style}
-            id={&props.id}
-        >
+        <div {class} aria-label={&props.aria_label} style={&props.style} id={&props.id}>
             { props.children.clone() }
         </div>
     )
@@ -64,11 +59,7 @@ pub fn input_group(props: &InputGroupProperties) -> Html {
 /// Input group text, as child of [`InputGroupItem`]
 #[function_component(InputGroupText)]
 pub fn input_group_text(props: &ChildrenProperties) -> Html {
-    html!(
-        <span class={"pf-v5-c-input-group__text"}>
-            { props.children.clone() }
-        </span>
-    )
+    html!(<span class="pf-v6-c-input-group__text">{ props.children.clone() }</span>)
 }
 
 #[derive(Clone, Debug, PartialEq, Properties)]
@@ -102,7 +93,7 @@ pub struct InputGroupItemProperties {
 /// Additional item on an input group.
 #[function_component(InputGroupItem)]
 pub fn input_group_item(props: &InputGroupItemProperties) -> Html {
-    let mut class = classes!("pf-v5-c-input-group__item");
+    let mut class = classes!("pf-v6-c-input-group__item");
 
     if props.plain {
         class.push(classes!("pf-m-plain"));
@@ -122,9 +113,5 @@ pub fn input_group_item(props: &InputGroupItemProperties) -> Html {
 
     class.extend(props.class.clone());
 
-    html!(
-        <div {class} id={&props.id} style={&props.style}>
-            { props.children.clone() }
-        </div>
-    )
+    html!(<div {class} id={&props.id} style={&props.style}>{ props.children.clone() }</div>)
 }

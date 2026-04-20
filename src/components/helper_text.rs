@@ -5,6 +5,7 @@
 
 use crate::prelude::{AsClasses, ExtendClasses, Icon};
 use log::warn;
+use std::fmt::{Display, Formatter};
 use std::rc::Rc;
 use yew::prelude::*;
 
@@ -15,13 +16,14 @@ pub enum HelperTextComponent {
     Ul,
 }
 
-impl ToString for HelperTextComponent {
-    fn to_string(&self) -> String {
-        match self {
+impl Display for HelperTextComponent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let value = match self {
             Self::Div => "div",
             Self::Ul => "ul",
-        }
-        .to_string()
+        };
+
+        f.write_str(value)
     }
 }
 
@@ -120,7 +122,7 @@ pub struct HelperTextProperties {
 /// ```
 #[function_component(HelperText)]
 pub fn helper_text(props: &HelperTextProperties) -> Html {
-    let mut class = classes!("pf-v5-c-helper-text", props.class.clone());
+    let mut class = classes!("pf-v6-c-helper-text", props.class.clone());
     if props.hidden {
         class.push("pf-m-hidden")
     }
@@ -146,19 +148,17 @@ pub fn helper_text(props: &HelperTextProperties) -> Html {
 
     html!(
         <@{component}
-            id={ &props.id }
-            { class }
-            aria-label={ &props.aria_label }
-            aria-live={ aria_live }
-            { role }
+            id={&props.id}
+            {class}
+            aria-label={&props.aria_label}
+            aria-live={aria_live}
+            {role}
         >
-            {
-                for props.children.iter().map(|mut c|{
+            { for props.children.iter().map(|mut c|{
                     let props = Rc::make_mut(&mut c.props);
                     props.component = item_component;
                     c
-                })
-            }
+                }) }
         </@>
     )
 }
@@ -170,13 +170,14 @@ pub enum HelperTextItemComponent {
     Li,
 }
 
-impl ToString for HelperTextItemComponent {
-    fn to_string(&self) -> String {
-        match self {
+impl Display for HelperTextItemComponent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let value = match self {
             Self::Div => "div",
             Self::Li => "li",
-        }
-        .to_string()
+        };
+
+        f.write_str(value)
     }
 }
 
@@ -234,7 +235,7 @@ pub struct HelperTextItemProperties {
 /// See [`HelperText`] for sample usage
 #[function_component(HelperTextItem)]
 pub fn helper_text_item(props: &HelperTextItemProperties) -> Html {
-    let mut class = classes!("pf-v5-c-helper-text__item", props.class.clone());
+    let mut class = classes!("pf-v6-c-helper-text__item", props.class.clone());
     if props.dynamic {
         class.push(classes!("pf-m-dynamic"));
     }
@@ -248,13 +249,8 @@ pub fn helper_text_item(props: &HelperTextItemProperties) -> Html {
         (HelperTextItemIcon::Custom(icon), ..) => Some(icon),
     };
 
-    let item_icon = icon.map(|icon| {
-        html!(
-            <span class="pf-v5-c-helper-text__item-icon">
-                { icon }
-            </span>
-        )
-    });
+    let item_icon =
+        icon.map(|icon| html!(<span class="pf-v6-c-helper-text__item-icon">{ icon }</span>));
 
     let screen_reader = use_memo(
         (props.screen_reader_text.clone(), props.dynamic),
@@ -262,11 +258,7 @@ pub fn helper_text_item(props: &HelperTextItemProperties) -> Html {
         |(text, _)| {
             if !text.is_empty() {
                 if props.dynamic {
-                    Some(html!(
-                        <span class="pf-v5-u-screen-reader">
-                            { ": " }{ text }{ ";" }
-                        </span>
-                    ))
+                    Some(html!(<span class="pf-v6-u-screen-reader">{ ": " }{ text }{ ";" }</span>))
                 } else {
                     warn!(
                         "The screen_reader_text attribute was set but has not been used as the \
@@ -281,9 +273,9 @@ pub fn helper_text_item(props: &HelperTextItemProperties) -> Html {
     );
 
     html!(
-        <@{component} id={ &props.id } { class }>
+        <@{component} id={&props.id} {class}>
             { item_icon }
-            <div class="pf-v5-c-helper-text__item-text">
+            <div class="pf-v6-c-helper-text__item-text">
                 { props.children.clone() }
                 { (*screen_reader).clone() }
             </div>

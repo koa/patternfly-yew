@@ -67,7 +67,11 @@ pub fn selectable_actions_object(props: &CardSelectableActionsObjectProperties) 
             <SingleSelectActionRadio base={props.base.clone()} onchange={onchange.clone()} />
         },
         Variant::MultiSelect { onchange, checked } => html! {
-            <MultiSelectActionCheckbox base={props.base.clone()} onchange={onchange.clone()} checked={*checked} />
+            <MultiSelectActionCheckbox
+                base={props.base.clone()}
+                onchange={onchange.clone()}
+                checked={*checked}
+            />
         },
         Variant::Click { onclick } => html! {
             <ClickableInput base={props.base.clone()} onclick={onclick.clone()} />
@@ -155,7 +159,10 @@ struct ClickableInputProperties {
 fn clickable_input_action_radio(props: &ClickableInputProperties) -> Html {
     let context: CardContext = use_context().expect("Couldn't find card context");
     if context.selectable {
-        log::warn!("Using a click action for an entire tile in a selectable card doesn't work. Set `selectable` to `false` in card `{}`", context.card_id);
+        log::warn!(
+            "Using a click action for an entire tile in a selectable card doesn't work. Set `selectable` to `false` in card `{}`",
+            context.card_id
+        );
     }
     let common = get_common_props(&props.base, &context);
     html! {
@@ -164,7 +171,7 @@ fn clickable_input_action_radio(props: &ClickableInputProperties) -> Html {
             id={common.id}
             name={common.name}
             disabled={common.disabled}
-            input_class="pf-v5-screen-reader"
+            input_class="pf-v6-screen-reader"
             input_onclick={props.onclick.clone()}
             force_label=true
         />

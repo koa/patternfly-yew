@@ -20,8 +20,7 @@ jobs:
       matrix:
         toolchain:
           - stable
-          # MSRV for bumpalo
-          - "1.73.0"
+          - "1.90.0"
 
     steps:
       - uses: actions/checkout@v4
@@ -53,4 +52,4 @@ jobs:
 
       - name: Check all features
         run: |
-          cargo check-all-features --target wasm32-unknown-unknown
+          cargo check-all-features -- --target wasm32-unknown-unknown

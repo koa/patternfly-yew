@@ -43,9 +43,7 @@ impl Icon {
     pub fn with_classes(&self, mut classes: Classes) -> Html {
         self.extend_classes(&mut classes);
 
-        html! (
-            <i class={classes} aria-hidden="true"></i>
-        )
+        html! (<i class={classes} aria-hidden="true" />)
     }
 }
 
@@ -64,7 +62,7 @@ pub(crate) fn fab(name: &str) -> [&str; 2] {
 }
 
 pub(crate) fn pf(name: &str) -> [&str; 2] {
-    ["pf-v5-pficon", name]
+    ["pf-v6-pficon", name]
 }
 
 impl From<Icon> for VNode {
@@ -79,8 +77,8 @@ impl IntoPropValue<Option<Html>> for Icon {
     }
 }
 
-impl ToHtml for Icon {
-    fn to_html(&self) -> Html {
+impl IntoPropValue<Html> for Icon {
+    fn into_prop_value(self) -> Html {
         self.as_html()
     }
 }

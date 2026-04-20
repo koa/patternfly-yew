@@ -43,7 +43,7 @@ pub struct SplitProperties {
 /// ```
 #[function_component(Split)]
 pub fn split(props: &SplitProperties) -> Html {
-    let mut classes = Classes::from("pf-v5-l-split");
+    let mut classes = Classes::from("pf-v6-l-split");
 
     if props.gutter {
         classes.push("pf-m-gutter");
@@ -53,11 +53,7 @@ pub fn split(props: &SplitProperties) -> Html {
         classes.push("pf-m-wrap");
     }
 
-    html! (
-        <div class={classes}>
-            { for props.children.iter() }
-        </div>
-    )
+    html! (<div class={classes}>{ for props.children.iter() }</div>)
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -75,15 +71,11 @@ pub struct SplitItemProperties {
 /// Defined by [`SplitItemProperties`].
 #[function_component(SplitItem)]
 pub fn split_item(props: &SplitItemProperties) -> Html {
-    let mut classes = Classes::from("pf-v5-l-split__item");
+    let mut classes = Classes::from("pf-v6-l-split__item");
 
     if props.fill {
         classes.push("pf-m-fill");
     }
 
-    html!(
-        <div class={classes}>
-            { props.children.clone() }
-        </div>
-    )
+    html!(<div class={classes}>{ props.children.clone() }</div>)
 }

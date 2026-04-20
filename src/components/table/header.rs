@@ -77,24 +77,20 @@ where
     };
 
     html! (
-        <thead class="pf-v5-c-table__thead">
-
-            <tr class="pf-v5-c-table__tr" role="row">
-
+        <thead class="pf-v6-c-table__thead">
+            <tr class="pf-v6-c-table__tr" role="row">
                 if props.expandable {
-                    <td class="pf-v5-c-table__td pf-v5-c-table__toggle" role="cell"></td>
+                    <td class="pf-v6-c-table__td pf-v6-c-table__toggle" role="cell" />
                 }
-
-                <ContextProvider<TableHeaderContext<K>> context={table_header_context}>
+                <ContextProvider<TableHeaderContext<K>>
+                    context={table_header_context}
+                >
                     { for props.children.iter() }
                 </ContextProvider<TableHeaderContext<K>>>
-
                 if !props.hide_actions {
-                    <td class="pf-v5-c-table__td"></td>
+                    <td class="pf-v6-c-table__td" />
                 }
-
             </tr>
-
         </thead>
     )
 }

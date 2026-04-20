@@ -1,7 +1,7 @@
 use super::{StateModel, TableDataModel};
 use crate::prelude::{StateModelIter, TableModel};
-use std::collections::hash_map::Entry;
 use std::collections::HashMap;
+use std::collections::hash_map::Entry;
 use std::fmt::{Debug, Formatter};
 use std::hash::Hash;
 use std::rc::Rc;
@@ -208,17 +208,22 @@ mod test {
         #[derive(Clone)]
         struct MockModel {}
 
-        impl TableEntryRenderer<()> for String {
+        #[derive(Clone)]
+        struct StringRenderer(String);
+
+        impl TableEntryRenderer<()> for StringRenderer {
             fn render_cell(&self, _context: CellContext<'_, ()>) -> Cell {
-                html!().into()
+                html!(&self.0).into()
             }
         }
 
         impl TableModel<()> for MockModel {
-            type Iterator<'i>  = std::vec::IntoIter<TableModelEntry<'i, Self::Item, Self::Key, ()>> where
-            Self: 'i;
+            type Iterator<'i>
+                = std::vec::IntoIter<TableModelEntry<'i, Self::Item, Self::Key, ()>>
+            where
+                Self: 'i;
 
-            type Item = String;
+            type Item = StringRenderer;
             type Key = usize;
 
             fn len(&self) -> usize {

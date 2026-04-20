@@ -49,12 +49,12 @@ pub fn wrapper<T: ItemRenderer>(props: &DualListSelectorListWrapperProps<T>) -> 
         disabled: props.disabled,
     };
     html! {
-        <div class={classes!["pf-v5-c-dual-list-selector__menu", props.class.clone()]} tabindex=0>
+        <div class={classes!["pf-v6-c-dual-list-selector__menu", props.class.clone()]} tabindex=0>
             <ContextProvider<DualListSelectorListContext<T>> {context}>
                 if !props.children.is_empty() {
                     { props.children.clone() }
                 } else {
-                    <DualListSelectorList<T>/>
+                    <DualListSelectorList<T> />
                 }
             </ContextProvider<DualListSelectorListContext<T>>>
         </div>

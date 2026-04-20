@@ -54,7 +54,7 @@ pub struct DividerProperties {
 /// Defined by [`DividerProperties`].
 #[function_component(Divider)]
 pub fn divider(props: &DividerProperties) -> Html {
-    let mut class = classes!("pf-v5-c-divider");
+    let mut class = classes!("pf-v6-c-divider");
 
     class.extend_from(&props.orientation);
     class.extend_from(&props.inset);
@@ -62,8 +62,8 @@ pub fn divider(props: &DividerProperties) -> Html {
 
     match props.r#type {
         DividerType::Hr => html! (<hr {class} />),
-        DividerType::Li => html! (<li {class} role="separator"></li>),
-        DividerType::Div => html! (<div {class} role="separator"></div>),
+        DividerType::Li => html! (<li {class} role="separator" />),
+        DividerType::Div => html! (<div {class} role="separator" />),
     }
 }
 

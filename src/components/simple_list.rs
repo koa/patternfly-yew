@@ -19,9 +19,7 @@ pub struct SimpleListProperties {
 pub fn simple_list(props: &SimpleListProperties) -> Html {
     html! {
         <SimpleListInner class={props.class.clone()}>
-            <ul class={"pf-v5-c-simple-list__list"} role="list">
-                { for props.children.iter() }
-            </ul>
+            <ul class="pf-v6-c-simple-list__list" role="list">{ for props.children.iter() }</ul>
         </SimpleListInner>
     }
 }
@@ -42,9 +40,7 @@ pub struct SimpleListGroupedProperties {
 #[function_component(SimpleListGrouped)]
 pub fn simple_list_grouped(props: &SimpleListGroupedProperties) -> Html {
     html! {
-        <SimpleListInner class={props.class.clone()}>
-            {for props.children.iter()}
-        </SimpleListInner>
+        <SimpleListInner class={props.class.clone()}>{ for props.children.iter() }</SimpleListInner>
     }
 }
 
@@ -58,10 +54,8 @@ struct SimpleListInnerProperties {
 
 #[function_component(SimpleListInner)]
 fn simple_list_inner(props: &SimpleListInnerProperties) -> Html {
-    let class = classes!("pf-v5-c-simple-list", props.class.clone());
-    html! {
-        <div {class}>{props.children.clone()}</div>
-    }
+    let class = classes!("pf-v6-c-simple-list", props.class.clone());
+    html! { <div {class}>{ props.children.clone() }</div> }
 }
 
 /// A single item which can be selected in a [`SimpleList`].
@@ -89,15 +83,15 @@ pub struct SimpleListItemProperties {
 
 #[function_component(SimpleListItem)]
 pub fn simple_list_item(props: &SimpleListItemProperties) -> Html {
-    let class = classes!(props.class.clone(), "pf-v5-c-simple-list__item");
-    let mut button_class = classes!(props.button_class.clone(), "pf-v5-c-simple-list__item-link");
+    let class = classes!(props.class.clone(), "pf-v6-c-simple-list__item");
+    let mut button_class = classes!(props.button_class.clone(), "pf-v6-c-simple-list__item-link");
     if props.active {
         button_class.push("pf-m-current");
     }
     html! {
         <li {class}>
             <button class={button_class} onclick={props.onclick.clone()} type="button">
-                {props.children.clone()}
+                { props.children.clone() }
             </button>
         </li>
     }
@@ -122,14 +116,12 @@ pub struct SimpleListGroupProperties {
 
 #[function_component(SimpleListGroup)]
 pub fn simple_list_group(props: &SimpleListGroupProperties) -> Html {
-    let title_class = classes!(props.title_class.clone(), "pf-v5-c-simple-list__title");
-    let class = classes!(props.class.clone(), "pf-v5-c-simple-list__list");
+    let title_class = classes!(props.title_class.clone(), "pf-v6-c-simple-list__title");
+    let class = classes!(props.class.clone(), "pf-v6-c-simple-list__list");
     html! {
-        <section class="pf-v5-c-simple-list__section">
-            <h2 class={title_class}>{props.title.clone()}</h2>
-            <ul {class} role="list">
-                {for props.children.iter()}
-            </ul>
+        <section class="pf-v6-c-simple-list__section">
+            <h2 class={title_class}>{ props.title.clone() }</h2>
+            <ul {class} role="list">{ for props.children.iter() }</ul>
         </section>
     }
 }

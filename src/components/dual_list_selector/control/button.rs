@@ -53,20 +53,16 @@ pub fn control(props: &DualListSelectorControlProps) -> Html {
     let inner = if let Some(text) = &props.tooltip {
         html! {
             if let Some(props) = &props.tooltip_props {
-                <Tooltip text={text.to_string()} ..props.clone()>
-                    { button }
-                </Tooltip>
+                <Tooltip text={text.to_string()} ..props.clone()>{ button }</Tooltip>
             } else {
-                <Tooltip text={text.to_string()}>
-                    { button }
-                </Tooltip>
+                <Tooltip text={text.to_string()}>{ button }</Tooltip>
             }
         }
     } else {
         button
     };
     html! {
-        <div class={classes!["pf-v5-c-dual-list-selector__controls-item", props.class.clone()]}>
+        <div class={classes!["pf-v6-c-dual-list-selector__controls-item", props.class.clone()]}>
             { inner }
         </div>
     }

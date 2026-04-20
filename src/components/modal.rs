@@ -4,7 +4,7 @@ use crate::prelude::use_backdrop;
 use crate::prelude::wrap::wrapper_div_with_attributes;
 use crate::utils::{Ouia, OuiaComponentType, OuiaSafe};
 use yew::prelude::*;
-use yew::virtual_dom::ApplyAttributeAs;
+use yew::virtual_dom::AttributeOrProperty;
 use yew_hooks::{use_click_away, use_event_with_window};
 
 const OUIA: Ouia = ouia!("ModalContent");
@@ -90,7 +90,7 @@ pub fn modal(props: &ModalProperties) -> Html {
         id.clone().unwrap_or(OUIA.generated_id())
     });
     let mut classes = props.variant.as_classes();
-    classes.push("pf-v5-c-modal-box");
+    classes.push("pf-v6-c-modal-box");
 
     let backdrop = use_backdrop();
 
@@ -144,44 +144,38 @@ pub fn modal(props: &ModalProperties) -> Html {
             data-ouia-safe={props.ouia_safe}
         >
             if props.show_close {
-                <div class="pf-v5-c-modal-box__close">
+                <div class="pf-v6-c-modal-box__close">
                     <button
-                        class="pf-v5-c-button pf-m-plain"
+                        class="pf-v6-c-button pf-m-plain"
                         type="button"
                         aria-label="Close dialog"
                         onclick={onclose.reform(|_|())}
                     >
-                        <i class="fas fa-times" aria-hidden="true"></i>
+                        <i class="fas fa-times" aria-hidden="true" />
                     </button>
                 </div>
             }
-
-            <header class="pf-v5-c-modal-box__header">
-                <h1
-                    class="pf-v5-c-modal-box__title"
-                    id="modal-title-modal-with-form"
-                >{ &props.title }</h1>
+            <header
+                class="pf-v6-c-modal-box__header"
+            >
+                <h1 class="pf-v6-c-modal-box__title" id="modal-title-modal-with-form">
+                    { &props.title }
+                </h1>
             </header>
-
-
             if !&props.description.is_empty() {
-                <div class="pf-v5-c-modal-box__body">
+                <div class="pf-v6-c-modal-box__body">
                     <p>{ &props.description }</p>
                 </div>
             }
-
             { for props.children.iter().map(|c|{
                 wrapper_div_with_attributes(c,
                     &[
-                        ("class", "pf-v5-c-modal-box__body", ApplyAttributeAs::Attribute),
-                        ("id", "modal-description", ApplyAttributeAs::Attribute)
+                        ("class", AttributeOrProperty::Static("pf-v6-c-modal-box__body")),
+                        ("id", AttributeOrProperty::Static("modal-description"))
                     ])
             }) }
-
             if let Some(footer) = &props.footer {
-              <footer class="pf-v5-c-modal-box__footer">
-                  { footer.clone() }
-              </footer>
+                <footer class="pf-v6-c-modal-box__footer">{ footer.clone() }</footer>
             }
         </div>
     )

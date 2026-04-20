@@ -8,7 +8,7 @@ mod model;
 pub use header::*;
 pub use model::*;
 
-use crate::prelude::{use_random_id, AsClasses, CellContext, ExtendClasses};
+use crate::prelude::{AsClasses, CellContext, ExtendClasses, use_random_id};
 use std::rc::Rc;
 use yew::{prelude::*, virtual_dom::VChild};
 
@@ -60,13 +60,11 @@ where
     C: Clone + Eq + 'static,
     M: TreeTableModel<C> + PartialEq + 'static,
 {
-    let mut class = classes!("pf-v5-c-table", "pf-m-tree-view");
+    let mut class = classes!("pf-v6-c-table", "pf-m-tree-view");
 
     class.extend_from(&props.mode);
 
-    let headers = use_memo(props.header.props.clone(), |header| {
-        collect_columns(&header)
-    });
+    let headers = use_memo(props.header.props.clone(), |header| collect_columns(header));
 
     let content = use_memo(
         (props.model.clone(), headers, props.default_expansion),
@@ -76,18 +74,9 @@ where
     );
 
     html!(
-        <table
-            id={&props.id}
-            {class}
-            role="treegrid"
-        >
-
+        <table id={&props.id} {class} role="treegrid">
             { props.header.clone() }
-
-            <tbody class="pf-v5-c-table__tbody">
-                { (*content).clone() }
-            </tbody>
-
+            <tbody class="pf-v6-c-table__tbody">{ (*content).clone() }</tbody>
         </table>
     )
 }
@@ -162,13 +151,11 @@ where
 {
     let size = nodes.len();
     html!(
-        {
-            for nodes.iter()
+        { for nodes.iter()
                 .enumerate()
                 .map(|(position,node) | html!(
                     <Row<C> {visibility} {size} {position} {level} node={node.clone()} headers={headers.clone()} {default_expansion}/>
-                ))
-        }
+                )) }
     )
 }
 
@@ -207,7 +194,7 @@ where
 {
     let expanded = use_state_eq(|| props.default_expansion);
 
-    let mut class = classes!("pf-v5-c-table__tr");
+    let mut class = classes!("pf-v6-c-table__tr");
 
     if *expanded {
         class.extend(classes!("pf-m-expanded"));
@@ -221,13 +208,12 @@ where
                 {class}
                 role="row"
                 tabindex="0"
-                aria-level={ props.level.to_string() }
-                aria-expanded={ (*expanded).to_string() }
-                aria-setsize={ props.size.to_string() }
-                aria-posinset={ props.position.to_string() }
+                aria-level={props.level.to_string()}
+                aria-expanded={(*expanded).to_string()}
+                aria-setsize={props.size.to_string()}
+                aria-posinset={props.position.to_string()}
                 hidden={!props.visibility.is_visible()}
             >
-
                 { for props.headers.iter().enumerate().map(|(nr, column)| {
 
                     let cell = props.node.render_cell(CellContext{column: &column.index});
@@ -245,7 +231,7 @@ where
                                 })
                             };
 
-                            class.push(classes!("pf-v5-c-table__th", "pf-v5-c-table__tree-view-title-cell"));
+                            class.push(classes!("pf-v6-c-table__th", "pf-v6-c-table__tree-view-title-cell"));
                             html!(
                                 <th {class}>
                                     <MainCell has_children={!children.is_empty()} {ontoggle} expanded={*expanded}>
@@ -255,7 +241,7 @@ where
                             )
                         },
                         _ => {
-                            class.push(classes!("pf-v5-c-table__td"));
+                            class.push(classes!("pf-v6-c-table__td"));
                             html!(
                                 <td {class} role="cell" data-label={column.label.clone()}>
                                    {cell.content}
@@ -264,9 +250,8 @@ where
                         },
                     }
                 }) }
-
                 // cell for the actions
-                <td></td>
+                <td />
             </tr>
             if props.visibility.nested(*expanded).is_visible() {
                 { render_nodes(props.level + 1, children, props.visibility.nested(*expanded), props.headers.clone(), props.default_expansion) }
@@ -289,47 +274,41 @@ fn main_cell(props: &MainCellProperties) -> Html {
     let id_toggle = use_random_id();
     let id_label = use_random_id();
 
-    let mut button_class = classes!("pf-v5-c-button", "pf-m-plain");
+    let mut button_class = classes!("pf-v6-c-button", "pf-m-plain");
 
     if props.expanded {
         button_class.push(classes!("pf-m-expanded"));
     }
 
     html!(
-        <div class="pf-v5-c-table__tree-view-main">
+        <div class="pf-v6-c-table__tree-view-main">
             if props.has_children {
-                <span class="pf-v5-c-table__toggle">
+                <span class="pf-v6-c-table__toggle">
                     <button
                         type="button"
                         class={button_class}
                         aria-labelledby={format!("{} {}", *id_label, *id_toggle)}
-                        id={ *id_toggle }
+                        id={*id_toggle}
                         aria-label="Details"
-                        aria-expanded={ (props.expanded).to_string() }
+                        aria-expanded={(props.expanded).to_string()}
                         onclick={props.ontoggle.reform(|_|())}
                     >
-                        <div class="pf-v5-c-table__toggle-icon">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        <div class="pf-v6-c-table__toggle-icon">
+                            <i class="fas fa-angle-down" aria-hidden="true" />
                         </div>
                     </button>
                 </span>
             }
-            <div class="pf-v5-c-table__tree-view-text">
-                <span
-                    class="pf-v5-c-table__text"
-                    id={ *id_label }
-                >
-                    { props.children.clone() }
-                </span>
+            <div
+                class="pf-v6-c-table__tree-view-text"
+            >
+                <span class="pf-v6-c-table__text" id={*id_label}>{ props.children.clone() }</span>
             </div>
             // TODO: not sure why this is needed
-            <span class="pf-v5-c-table__tree-view-details-toggle">
-                <button
-                    class="pf-v5-c-button pf-m-plain"
-                    type="button"
-                >
-                    <span class="pf-v5-c-table__details-toggle-icon">
-                        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+            <span class="pf-v6-c-table__tree-view-details-toggle">
+                <button class="pf-v6-c-button pf-m-plain" type="button">
+                    <span class="pf-v6-c-table__details-toggle-icon">
+                        <i class="fas fa-ellipsis-h" aria-hidden="true" />
                     </span>
                 </button>
             </span>

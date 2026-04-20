@@ -13,7 +13,7 @@ permissions:
 jobs:
 
   init:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-slim
     outputs:
       version: ${{steps.version.outputs.version}}
       prerelease: ${{steps.state.outputs.prerelease}}
@@ -46,17 +46,15 @@ jobs:
   # publish directly after CI check
   publish:
     needs: [ init, ci ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v6
 
       - name: Install convco
         run: |
-          curl -sLO https://github.com/convco/convco/releases/download/v0.5.1/convco-ubuntu.zip
+          curl -sLO https://github.com/convco/convco/releases/download/v0.6.3/convco-ubuntu.zip
           unzip convco-ubuntu.zip
           sudo install convco /usr/local/bin
 

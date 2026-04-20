@@ -143,7 +143,7 @@ pub fn checkbox(props: &CheckboxProperties) -> Html {
         id.clone().unwrap_or(OUIA.generated_id())
     });
     let id = use_prop_id(props.id.clone());
-    let mut outer_class = classes!["pf-v5-c-check", props.class.clone()];
+    let mut outer_class = classes!["pf-v6-c-check", props.class.clone()];
 
     if props.label.is_none() {
         outer_class.push("pf-m-standalone");
@@ -173,15 +173,15 @@ pub fn checkbox(props: &CheckboxProperties) -> Html {
     );
 
     let label = if let Some(label) = &props.label.0 {
-        let mut class = classes!["pf-v5-c-check__label"];
+        let mut class = classes!["pf-v6-c-check__label"];
         if props.disabled {
             class.push("pf-m-disabled");
         }
         html! (
             <label {class} for={(*id).clone()}>
-                {label.clone()}
+                { label.clone() }
                 if props.required {
-                    <span class="pf-v5-c-check__label-required" aria-hidden="true">{"*"}</span>
+                    <span class="pf-v6-c-check__label-required" aria-hidden="true">{ "*" }</span>
                 }
             </label>
         )
@@ -192,7 +192,7 @@ pub fn checkbox(props: &CheckboxProperties) -> Html {
     html! (
         <@{props.component.clone()} class={outer_class}>
             <input
-                class={classes!["pf-v5-c-check__input", props.input_class.clone()]}
+                class={classes!["pf-v6-c-check__input", props.input_class.clone()]}
                 type="checkbox"
                 {onchange}
                 aria-invalid={props.valid.to_string()}
@@ -206,12 +206,12 @@ pub fn checkbox(props: &CheckboxProperties) -> Html {
                 data-ouia-component-type={props.ouia_type}
                 data-ouia-safe={props.ouia_safe}
             />
-            {label}
+            { label }
             if let Some(description) = &props.description.0 {
-                <span class="pf-v5-c-check__description">{description.clone()}</span>
+                <span class="pf-v6-c-check__description">{ description.clone() }</span>
             }
             if let Some(body) = &props.body {
-                <span class="pf-v5-c-check__body">{body.clone()}</span>
+                <span class="pf-v6-c-check__body">{ body.clone() }</span>
             }
         </@>
     )

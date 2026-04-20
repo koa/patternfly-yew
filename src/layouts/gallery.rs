@@ -2,7 +2,7 @@
 
 use crate::prelude::wrap::wrapper_div_with_attributes;
 use yew::prelude::*;
-use yew::virtual_dom::ApplyAttributeAs;
+use yew::virtual_dom::AttributeOrProperty;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct GalleryProperties {
@@ -24,19 +24,16 @@ pub struct GalleryProperties {
 /// Defined by [`GalleryProperties`].
 #[function_component(Gallery)]
 pub fn gallery(props: &GalleryProperties) -> Html {
-    let mut classes = classes!("pf-v5-l-gallery");
+    let mut classes = classes!("pf-v6-l-gallery");
 
     if props.gutter {
         classes.push(classes!("pf-m-gutter"));
     }
 
     html! (
-        <div
-            class={classes}
-            style={&props.style}
-        >
-        { for props.children.iter().map(|child|{
-            wrapper_div_with_attributes(child, &[("class", "pf-v5-l-gallery__item", ApplyAttributeAs::Attribute)])
+        <div class={classes} style={&props.style}>
+            { for props.children.iter().map(|child|{
+            wrapper_div_with_attributes(child, &[("class", AttributeOrProperty::Static("pf-v6-l-gallery__item"))])
         }) }
         </div>
     )
